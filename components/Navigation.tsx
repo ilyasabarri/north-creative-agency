@@ -72,7 +72,7 @@ export default function Navigation() {
         <button
           onClick={toggleLocale}
           data-cursor
-          className="ml-2 flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-mono transition-all duration-300"
+          className="fixed bottom-6 right-6 md:static md:bottom-auto md:right-auto z-[90] flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-mono transition-all duration-300 md:ml-2 backdrop-blur-md"
           style={{
             border: "1px solid rgba(200,255,0,0.4)",
             color: "#c8ff00",
