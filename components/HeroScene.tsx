@@ -270,7 +270,7 @@ export default function HeroScene() {
         className="absolute bottom-0 left-0 right-0 px-6 md:px-12 pb-12 md:pb-18"
         style={{ zIndex: 10 }}
       >
-        <div className="flex flex-col md:flex-row items-end justify-between gap-6">
+        <div className="flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
           {/* Big stacked title */}
           <div ref={textRef} className="hero-title-container">
             <div
@@ -302,7 +302,7 @@ export default function HeroScene() {
           </div>
 
           {/* Right column */}
-          <div className="flex flex-col gap-3 max-w-xs text-right">
+          <div className="flex flex-col gap-3 max-w-xs text-left md:text-right">
             <div className="section-label">{t.hero.founded}</div>
             <p style={{
               fontFamily: "var(--font-space-mono), monospace",
@@ -313,7 +313,7 @@ export default function HeroScene() {
             }}>
               {t.hero.description}
             </p>
-            <div className="flex items-center justify-end gap-3 mt-1">
+            <div className="flex items-center justify-start md:justify-end gap-3 mt-1">
               <span style={{
                 fontFamily: "var(--font-space-mono), monospace",
                 fontSize: "0.58rem",

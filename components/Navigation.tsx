@@ -34,13 +34,7 @@ export default function Navigation() {
         style={{ background: "none", border: "none", padding: 0, cursor: "none" }}
       >
         <div
-          style={{
-            position: "relative",
-            width: "240px",
-            height: "104px",
-            transition: "transform 0.3s ease, opacity 0.3s ease",
-          }}
-          className="group-hover:scale-105 group-hover:opacity-90"
+          className="relative w-[140px] h-[60px] md:w-[240px] md:h-[104px] transition-transform duration-300 ease-out group-hover:scale-105 group-hover:opacity-90"
         >
           <Image
             src="/images/logo.png"
