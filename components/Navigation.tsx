@@ -18,7 +18,8 @@ export default function Navigation() {
   };
 
   return (
-    <nav
+    <>
+      <nav
       className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 py-3 transition-all duration-500"
       style={{
         background: scrolled ? "rgba(0,0,0,0.75)" : "transparent",
@@ -68,11 +69,11 @@ export default function Navigation() {
           {t.nav.contact}
         </button>
 
-        {/* EN / FR toggle */}
+        {/* EN / FR toggle (Desktop) */}
         <button
           onClick={toggleLocale}
           data-cursor
-          className="fixed bottom-6 right-6 md:static md:bottom-auto md:right-auto z-[90] flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-mono transition-all duration-300 md:ml-2 backdrop-blur-md"
+          className="hidden md:flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-mono transition-all duration-300 ml-2 backdrop-blur-md"
           style={{
             border: "1px solid rgba(200,255,0,0.4)",
             color: "#c8ff00",
@@ -87,5 +88,22 @@ export default function Navigation() {
         </button>
       </div>
     </nav>
+
+    {/* EN / FR toggle (Mobile Fixed) */}
+    <button
+      onClick={toggleLocale}
+      className="md:hidden fixed bottom-6 right-6 z-[90] flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-mono transition-all duration-300 backdrop-blur-md"
+      style={{
+        border: "1px solid rgba(200,255,0,0.4)",
+        color: "#c8ff00",
+        letterSpacing: "0.15em",
+        background: "rgba(200,255,0,0.06)",
+      }}
+    >
+      <span className={locale === "en" ? "opacity-100" : "opacity-35"}>EN</span>
+      <span className="opacity-30">/</span>
+      <span className={locale === "fr" ? "opacity-100" : "opacity-35"}>FR</span>
+    </button>
+    </>
   );
 }
