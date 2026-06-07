@@ -1,26 +1,358 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --brand-blue: #0019ff;
+    --brand-lime: #c8ff00;
+    --brand-black: #000000;
+    --font-bebas: "Bebas Neue", sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: #000000;
+    color: #ffffff;
+    font-family: var(--font-space-grotesk), sans-serif;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: #0019ff;
+    color: #ffffff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 3px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #000000;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #0019ff;
+    border-radius: 2px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ─── Fonts ─────────────────────────────────────────── */
+.font-display {
+  font-family: "Bebas Neue", var(--font-space-grotesk), sans-serif;
+}
+
+/* ─── Custom Cursor ─────────────────────────────────── */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: #c8ff00;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.2s ease;
+}
+
+.cursor-dot.cursor-hover {
+  width: 12px;
+  height: 12px;
+  background: #0019ff;
+}
+
+.cursor-ring.cursor-hover {
+  width: 60px;
+  height: 60px;
+  border-color: rgba(0, 25, 255, 0.6);
+}
+
+/* ─── Preloader ─────────────────────────────────────── */
+.preloader {
+  position: fixed;
+  inset: 0;
+  background: #000000;
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.preloader-progress-bar {
+  width: 200px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.preloader-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0019ff, #c8ff00);
+  transform-origin: left;
+}
+
+/* ─── Section Labels ────────────────────────────────── */
+.section-label {
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.4em;
+  color: rgba(200, 255, 0, 0.8);
+  text-transform: uppercase;
+}
+
+/* ─── Glitch Text Effect ────────────────────────────── */
+@keyframes glitch-1 {
+  0%,
+  14%,
+  15%,
+  49%,
+  50%,
+  99%,
+  100% {
+    clip-path: inset(0 0 100% 0);
+    transform: translateX(0);
+  }
+  15%,
+  49% {
+    clip-path: inset(10% 0 60% 0);
+    transform: translateX(-4px);
+  }
+}
+
+@keyframes glitch-2 {
+  0%,
+  20%,
+  21%,
+  60%,
+  61%,
+  99%,
+  100% {
+    clip-path: inset(0 0 100% 0);
+    transform: translateX(0);
+  }
+  21%,
+  60% {
+    clip-path: inset(50% 0 20% 0);
+    transform: translateX(4px);
+  }
+}
+
+.glitch-text {
+  position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.glitch-text::before {
+  color: #0019ff;
+  animation: glitch-1 4s infinite linear;
+}
+
+.glitch-text::after {
+  color: #c8ff00;
+  animation: glitch-2 4s infinite linear;
+}
+
+/* ─── Portfolio Carousel ────────────────────────────── */
+.portfolio-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.portfolio-slide.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ─── Service Item Hover ────────────────────────────── */
+.service-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.service-item:hover {
+  border-bottom-color: #0019ff;
+  background: rgba(0, 25, 255, 0.04);
+}
+
+/* ─── Team Card ─────────────────────────────────────── */
+.team-card {
+  position: relative;
+  overflow: hidden;
+}
+.team-card img {
+  filter: grayscale(100%) contrast(1.1);
+  transition: filter 0.5s ease, transform 0.5s ease;
+}
+.team-card:hover img {
+  filter: grayscale(0%) contrast(1);
+  transform: scale(1.04);
+}
+.team-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.team-card:hover .team-card-overlay {
+  transform: translateY(0);
+}
+
+/* ─── Marquee ───────────────────────────────────────── */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+.marquee-track-reverse {
+  animation-direction: reverse;
+}
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ─── Noise overlay ─────────────────────────────────── */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ─── Blue section background ───────────────────────── */
+.blue-section {
+  background: linear-gradient(160deg, #00050a 0%, #00073a 40%, #000d80 80%, #0019ff 100%);
+}
+
+.blue-section-dark {
+  background: linear-gradient(160deg, #000000 0%, #00041a 50%, #00073a 100%);
+}
+
+/* ─── Text gradient ─────────────────────────────────── */
+.text-gradient-blue {
+  background: linear-gradient(135deg, #ffffff 0%, #a0b4ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-lime {
+  background: linear-gradient(135deg, #c8ff00 0%, #80ff00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Line separator ────────────────────────────────── */
+.line-separator {
+  display: inline-block;
+  width: 60px;
+  height: 1px;
+  background: #0019ff;
+  vertical-align: middle;
+}
+
+/* ─── Animated border ───────────────────────────────── */
+.border-glow {
+  border: 1px solid rgba(0, 25, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 25, 255, 0.1), inset 0 0 20px rgba(0, 25, 255, 0.05);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.border-glow:hover {
+  border-color: rgba(0, 25, 255, 0.7);
+  box-shadow: 0 0 40px rgba(0, 25, 255, 0.25), inset 0 0 20px rgba(0, 25, 255, 0.1);
+}
+
+/* ─── Pill button ───────────────────────────────────── */
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  font-family: var(--font-space-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.pill-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ─── Hero canvas ───────────────────────────────────── */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── Scroll indicator ──────────────────────────────── */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(6px); opacity: 0.5; }
+}
+.scroll-indicator {
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+/* ─── Contact CTA gradient text ─────────────────────── */
+.contact-title {
+  line-height: 0.9;
+}
+
+/* ─── Responsive ────────────────────────────────────── */
+@media (max-width: 768px) {
+  body { cursor: auto; }
+  .cursor-dot, .cursor-ring { display: none; }
 }
