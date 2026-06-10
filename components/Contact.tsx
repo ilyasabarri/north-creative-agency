@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLang } from "@/lib/lang-context";
@@ -159,9 +160,10 @@ export default function Contact() {
 
         {/* CTA button */}
         <div className="c-reveal">
-          <button
+          <Link
+            href="/start-a-project"
             data-cursor
-            className="group relative overflow-hidden"
+            className="group relative overflow-hidden inline-flex items-center"
             style={{
               padding: "1.2rem 2.5rem",
               border: "1px solid #0019FF",
@@ -171,7 +173,7 @@ export default function Contact() {
               fontSize: "0.75rem",
               letterSpacing: "0.25em",
               color: "white",
-              cursor: "none",
+              textDecoration: "none",
               transition: "color 0.4s ease",
             }}
           >
@@ -194,7 +196,7 @@ export default function Contact() {
               {t.contact.cta}
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </span>
-          </button>
+          </Link>
         </div>
 
         {/* Social links */}

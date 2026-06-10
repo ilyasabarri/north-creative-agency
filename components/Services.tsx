@@ -1,10 +1,26 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLang } from "@/lib/lang-context";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Maps service title → route slug
+const SERVICE_SLUGS: Record<string, string> = {
+  "3D & CGI": "3d-cgi",
+  "GRAPHIC DESIGN": "graphic-design",
+  "DESIGN GRAPHIQUE": "graphic-design",
+  "PHOTOGRAPHY": "photography",
+  "PHOTOGRAPHIE": "photography",
+  "VIDEOGRAPHY": "videography",
+  "VIDÉOGRAPHIE": "videography",
+  "SOUND DESIGN": "sound-design",
+  "DESIGN SONORE": "sound-design",
+  "ARCHITECTURE": "architecture",
+  "WEB & DIGITAL": "web-digital",
+};
 
 export default function Services() {
   const { t } = useLang();
@@ -73,18 +89,9 @@ export default function Services() {
 
         {/* Services list */}
         <div>
-          {t.services.items.map((service, i) => (
-            <div
-              key={i}
-              className="service-item service-reveal"
-              onMouseEnter={() => setHoveredIndex(i)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              data-cursor
-              style={{
-                padding: "1.8rem 0",
-                cursor: "default",
-              }}
-            >
+          {t.services.items.map((service, i) => {
+            const slug = SERVICE_SLUGS[service.title];
+            const inner = (
               <div className="flex items-center justify-between gap-6">
                 {/* Number */}
                 <span
@@ -150,8 +157,40 @@ export default function Services() {
                   →
                 </span>
               </div>
-            </div>
-          ))}
+            );
+
+            return slug ? (
+              <Link
+                key={i}
+                href={`/services/${slug}`}
+                className="service-item service-reveal block"
+                data-cursor
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                style={{
+                  padding: "1.8rem 0",
+                  textDecoration: "none",
+                  display: "block",
+                }}
+              >
+                {inner}
+              </Link>
+            ) : (
+              <div
+                key={i}
+                className="service-item service-reveal"
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                data-cursor
+                style={{
+                  padding: "1.8rem 0",
+                  cursor: "default",
+                }}
+              >
+                {inner}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
