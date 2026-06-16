@@ -115,7 +115,15 @@ export default function StartAProjectPage() {
     // Small delay for UX
     await new Promise((r) => setTimeout(r, 600));
 
-    window.location.href = mailtoLink;
+    // Open mailto via a hidden anchor so the browser doesn't navigate away
+    // from the page (which would prevent the thank-you state from rendering).
+    const a = document.createElement("a");
+    a.href = mailtoLink;
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
     setSubmitting(false);
     setSubmitted(true);
   };
@@ -705,6 +713,7 @@ function SuccessState() {
       className="min-h-screen flex flex-col items-center justify-center px-6 text-center"
       style={{ background: "#000000" }}
     >
+      <CustomCursor />
       <div className="noise-overlay" aria-hidden="true" />
       <div
         style={{
